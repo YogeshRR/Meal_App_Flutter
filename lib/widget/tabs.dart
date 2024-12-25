@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/Screens/meals_screen.dart';
-import 'package:meals_app/main.dart';
+import 'package:meals_app/model/meal.dart';
 
 import 'package:meals_app/Screens/categories_screen.dart';
 
@@ -24,11 +24,41 @@ class _Tabs extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const CategoriesScreen();
+    List<Meal> _favouriteMeal = [];
     var title = 'Categories';
+    Widget activePage;
+    void _showMessage(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }
+
+    void _toggleFavouriteMeal(Meal meal) {
+      final isExisting = _favouriteMeal.contains(meal);
+
+      if (isExisting) {
+        setState(() {
+          _favouriteMeal.remove(meal);
+          _showMessage('Favourite meal is removed from Favourite List');
+        });
+      } else {
+        setState(() {
+          _favouriteMeal.add(meal);
+          _showMessage('Favourite meal is add in Favourite List');
+        });
+      }
+    }
+
+    activePage = CategoriesScreen(toggleFavouriteMeal: _toggleFavouriteMeal);
 
     if (activePageIndex == 1) {
-      activePage = const MealsScreen(title: 'Favourite Screen', meals: []);
+      activePage = MealsScreen(
+        title: 'Favourite Screen',
+        meals: _favouriteMeal,
+        toggleFavouriteMeal: _toggleFavouriteMeal,
+      );
       title = 'Your Favourite';
     }
 
@@ -37,6 +67,7 @@ class _Tabs extends State<Tabs> {
       appBar: AppBar(
         title: Text(title),
       ),
+      drawer: Drawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
