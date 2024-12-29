@@ -63,12 +63,19 @@ class _Tabs extends State<Tabs> {
       title = 'Your Favourite';
     }
 
+    void _setScreen(String identifier) {
+      if (identifier == 'filters') {
+      } else {
+        Navigator.of(context).pop();
+      }
+    }
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      drawer: MainDrawer(),
+      drawer: MainDrawer(selectetMeal: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
