@@ -3,6 +3,7 @@ import 'package:meals_app/Screens/meals_screen.dart';
 import 'package:meals_app/model/meal.dart';
 
 import 'package:meals_app/Screens/categories_screen.dart';
+import 'package:meals_app/widget/main_drawer.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
@@ -67,7 +68,7 @@ class _Tabs extends State<Tabs> {
       appBar: AppBar(
         title: Text(title),
       ),
-      drawer: Drawer(),
+      drawer: MainDrawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
