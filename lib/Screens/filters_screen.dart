@@ -29,24 +29,24 @@ class _FiltersScreen extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Filters Screen'),
       ),
-      drawer: MainDrawer(selectetMeal: (identifer) {
-        Navigator.of(context).pop();
+      // drawer: MainDrawer(selectetMeal: (identifer) {
+      //   Navigator.of(context).pop();
 
-        if (identifer == 'meal') {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (ctx) => const Tabs(),
-            ),
-          );
-        }
-      }),
+      //   if (identifer == 'meal') {
+      //     Navigator.of(context).pushReplacement(
+      //       MaterialPageRoute(
+      //         builder: (ctx) => const Tabs(),
+      //       ),
+      //     );
+      //   }
+      // }),
       body: WillPopScope(
         onWillPop: () async {
           Navigator.of(context).pop({
-            'gluten': _isGlutenFree,
-            'lactose': _isLactoseFree,
-            'vegan': _isVegan,
-            'vegetarian': _isVegetarian,
+            FilterOptions.glutenFree: _isGlutenFree,
+            FilterOptions.lactoseFree: _isLactoseFree,
+            FilterOptions.vegan: _isVegan,
+            FilterOptions.vegetarian: _isVegetarian,
           });
           return false;
         },
