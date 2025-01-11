@@ -6,6 +6,13 @@ import 'package:meals_app/model/meal.dart';
 import 'package:meals_app/Screens/categories_screen.dart';
 import 'package:meals_app/widget/main_drawer.dart';
 
+const kInitialFilters = {
+  FilterOptions.glutenFree: false,
+  FilterOptions.lactoseFree: false,
+  FilterOptions.vegetarian: false,
+  FilterOptions.vegan: false,
+};
+
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
 
@@ -23,6 +30,13 @@ class _Tabs extends State<Tabs> {
       activePageIndex = index;
     });
   }
+
+  var _selectedFilter = {
+    FilterOptions.glutenFree: false,
+    FilterOptions.lactoseFree: false,
+    FilterOptions.vegetarian: false,
+    FilterOptions.vegan: false,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +87,9 @@ class _Tabs extends State<Tabs> {
             builder: (ctx) => const FiltersScreen(),
           ),
         );
-        print(result);
+        setState(() {
+          _selectedFilter = result ?? kInitialFilters;
+        });
       }
     }
 
