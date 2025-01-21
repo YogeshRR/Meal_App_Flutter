@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/Screens/filters_screen.dart';
 import 'package:meals_app/Screens/meals_screen.dart';
+import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/model/meal.dart';
 
 import 'package:meals_app/Screens/categories_screen.dart';
@@ -40,6 +41,21 @@ class _Tabs extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
+    final availableMeals = dummyMeals.where((meal) {
+      if (_selectedFilter[FilterOptions.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_selectedFilter[FilterOptions.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_selectedFilter[FilterOptions.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+      if (_selectedFilter[FilterOptions.vegan]! && !meal.isVegan) {
+        return false;
+      }
+      return true;
+    }).toList();
     List<Meal> _favouriteMeal = [];
     var title = 'Categories';
     Widget activePage;
@@ -67,7 +83,10 @@ class _Tabs extends State<Tabs> {
       }
     }
 
-    activePage = CategoriesScreen(toggleFavouriteMeal: _toggleFavouriteMeal);
+    activePage = CategoriesScreen(
+      toggleFavouriteMeal: _toggleFavouriteMeal,
+      availableMeals: availableMeals,
+    );
 
     if (activePageIndex == 1) {
       activePage = MealsScreen(
@@ -84,7 +103,9 @@ class _Tabs extends State<Tabs> {
         final result =
             await Navigator.of(context).push<Map<FilterOptions, bool>>(
           MaterialPageRoute(
-            builder: (ctx) => const FiltersScreen(),
+            builder: (ctx) => FiltersScreen(
+              currentFilters: _selectedFilter,
+            ),
           ),
         );
         setState(() {

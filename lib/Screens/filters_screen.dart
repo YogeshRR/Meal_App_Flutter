@@ -11,7 +11,8 @@ enum FilterOptions {
 }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required this.currentFilters});
+  final Map<FilterOptions, bool> currentFilters;
   @override
   State<FiltersScreen> createState() {
     return _FiltersScreen();
@@ -23,6 +24,17 @@ class _FiltersScreen extends State<FiltersScreen> {
   var _isLactoseFree = false;
   var _isVegan = false;
   var _isVegetarian = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isGlutenFree = widget.currentFilters[FilterOptions.glutenFree]!;
+    _isLactoseFree = widget.currentFilters[FilterOptions.lactoseFree]!;
+    _isVegan = widget.currentFilters[FilterOptions.vegan]!;
+    _isVegetarian = widget.currentFilters[FilterOptions.vegetarian]!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
