@@ -7,6 +7,7 @@ import 'package:meals_app/model/meal.dart';
 import 'package:meals_app/Screens/categories_screen.dart';
 import 'package:meals_app/widget/main_drawer.dart';
 import 'package:meals_app/provider/meals_provider.dart';
+import 'package:meals_app/provider/favouriteMeals_provider.dart';
 
 const kInitialFilters = {
   FilterOptions.glutenFree: false,
@@ -58,7 +59,7 @@ class _Tabs extends ConsumerState<Tabs> {
       }
       return true;
     }).toList();
-    List<Meal> _favouriteMeal = [];
+
     var title = 'Categories';
     Widget activePage;
     void _showMessage(String message) {
@@ -69,32 +70,31 @@ class _Tabs extends ConsumerState<Tabs> {
       );
     }
 
-    void _toggleFavouriteMeal(Meal meal) {
-      final isExisting = _favouriteMeal.contains(meal);
+    // void _toggleFavouriteMeal(Meal meal) {
+    //   final isExisting = _favouriteMeal.contains(meal);
 
-      if (isExisting) {
-        setState(() {
-          _favouriteMeal.remove(meal);
-          _showMessage('Favourite meal is removed from Favourite List');
-        });
-      } else {
-        setState(() {
-          _favouriteMeal.add(meal);
-          _showMessage('Favourite meal is add in Favourite List');
-        });
-      }
-    }
+    //   if (isExisting) {
+    //     setState(() {
+    //       _favouriteMeal.remove(meal);
+    //       _showMessage('Favourite meal is removed from Favourite List');
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _favouriteMeal.add(meal);
+    //       _showMessage('Favourite meal is add in Favourite List');
+    //     });
+    //   }
+    // }
 
     activePage = CategoriesScreen(
-      toggleFavouriteMeal: _toggleFavouriteMeal,
       availableMeals: availableMeals,
     );
 
     if (activePageIndex == 1) {
+      final favouriteMeals = ref.watch(favouriteMealsProvider);
       activePage = MealsScreen(
         title: 'Favourite Screen',
-        meals: _favouriteMeal,
-        toggleFavouriteMeal: _toggleFavouriteMeal,
+        meals: favouriteMeals,
       );
       title = 'Your Favourite';
     }

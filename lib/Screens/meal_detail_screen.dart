@@ -6,11 +6,10 @@ class MealDetailScreen extends StatelessWidget {
   const MealDetailScreen({
     super.key,
     required this.meal,
-    required this.toggleFavouriteMeal,
   });
 
   final Meal meal;
-  final Function(Meal meal) toggleFavouriteMeal;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
