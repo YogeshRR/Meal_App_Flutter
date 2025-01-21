@@ -62,13 +62,6 @@ class _Tabs extends ConsumerState<Tabs> {
 
     var title = 'Categories';
     Widget activePage;
-    void _showMessage(String message) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
-    }
 
     // void _toggleFavouriteMeal(Meal meal) {
     //   final isExisting = _favouriteMeal.contains(meal);
@@ -91,6 +84,7 @@ class _Tabs extends ConsumerState<Tabs> {
     );
 
     if (activePageIndex == 1) {
+      print(ref.watch(favouriteMealsProvider));
       final favouriteMeals = ref.watch(favouriteMealsProvider);
       activePage = MealsScreen(
         title: 'Favourite Screen',
