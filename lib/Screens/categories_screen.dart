@@ -22,10 +22,11 @@ class _CategoriesScreenState extends State<CategoriesScreen>
     // TODO: implement initState
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 300),
+      duration: const Duration(seconds: 1),
       lowerBound: 0,
       upperBound: 1,
     );
+    _animationController.forward();
     super.initState();
   }
 
@@ -54,22 +55,29 @@ class _CategoriesScreenState extends State<CategoriesScreen>
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GridView(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+    return AnimatedBuilder(
+      animation: _animationController,
+      child: GridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+        ),
+        children: [
+          for (final category in availableCategories)
+            CategoryItem(
+              category: category,
+              selectedCategory: () {
+                _selectCategory(context, category);
+              },
+            ),
+        ],
       ),
-      children: [
-        for (final category in availableCategories)
-          CategoryItem(
-            category: category,
-            selectedCategory: () {
-              _selectCategory(context, category);
-            },
-          ),
-      ],
+      builder: (ctx, child) => Padding(
+          padding:
+              EdgeInsets.only(top: 100 - (_animationController.value * 100)),
+          child: child),
     );
   }
 }
